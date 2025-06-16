@@ -1,0 +1,437 @@
+INFO 2025-06-16 13:56:50,853 services 5224 3544 Criando sessão de checkout - Email: ernane1974...
+INFO 2025-06-16 13:56:50,853 services 5224 3544 Dados do checkout: {'email': 'ernane1974@gmail.com', 'token': '56fba2ee-a066-4480-8e08-ba1eb6b538b1238bc8894842bb0098d8265366c3c6823579-5d56-4c8f-b3c2-124e18b9c67d', 'currency': 'BRL', 'reference': 'test-1750107410', 'senderEmail': 'cliente.teste@email.com', 'senderName': 'Cliente Teste PagBank', 'shippingType': '3', 'redirectURL': 'http://localhost:3000/payment/success', 'notificationURL': 'http://localhost:8000/api/payments/webhook/', 'itemId1': 1, 'itemDescription1': 'Produto Teste PagBank', 'itemAmount1': '29.90', 'itemQuantity1': 1}
+INFO 2025-06-16 13:56:51,354 services 5224 3544 Status da resposta: 401
+INFO 2025-06-16 13:56:51,354 services 5224 3544 Resposta: Unauthorized...
+INFO 2025-06-16 13:59:37,519 services 5224 7060 Criando sessão de checkout - Email: ernane1974...
+INFO 2025-06-16 13:59:37,519 services 5224 7060 Dados do checkout: {'email': 'ernane1974@gmail.com', 'token': '56fba2ee-a066-4480-8e08-ba1eb6b538b1238bc8894842bb0098d8265366c3c6823579-5d56-4c8f-b3c2-124e18b9c67d', 'currency': 'BRL', 'reference': 'test-1750107577', 'senderEmail': 'cliente.teste@email.com', 'senderName': 'Cliente Teste PagBank', 'shippingType': '3', 'redirectURL': 'http://localhost:3000/payment/success', 'notificationURL': 'http://localhost:8000/api/payments/webhook/', 'itemId1': 1, 'itemDescription1': 'Produto Teste PagBank', 'itemAmount1': '29.90', 'itemQuantity1': 1}
+INFO 2025-06-16 13:59:37,779 services 5224 7060 Status da resposta: 401
+INFO 2025-06-16 13:59:37,779 services 5224 7060 Resposta: Unauthorized...
+INFO 2025-06-16 14:09:38,474 services 5432 9556 Criando ordem PagBank v4...
+INFO 2025-06-16 14:09:38,475 services 5432 9556 Dados da ordem: {
+  "reference_id": "test-1750108178",
+  "customer": {
+    "name": "Cliente Teste PagBank",
+    "email": "cliente.teste@email.com"
+  },
+  "items": [
+    {
+      "reference_id": "1",
+      "name": "Produto Teste PagBank",
+      "quantity": 1,
+      "unit_amount": 2990
+    }
+  ],
+  "notification_urls": [
+    "http://localhost:8000/api/payments/webhook/"
+  ]
+}
+INFO 2025-06-16 14:09:38,932 services 5432 9556 Status: 400
+INFO 2025-06-16 14:09:38,933 services 5432 9556 Resposta: {"error_messages":[{"code":"40001","description":"must not be null","parameter_name":"customer.tax_id"},{"code":"40002","description":"invalid notification url","parameter_name":"notification_urls[0]"}]}
+INFO 2025-06-16 14:12:20,135 services 7712 9476 Criando ordem PagBank v4...
+INFO 2025-06-16 14:12:20,135 services 7712 9476 Dados da ordem: {
+  "reference_id": "test-1750108340",
+  "customer": {
+    "name": "Cliente Teste PagBank",
+    "email": "cliente.teste@email.com",
+    "tax_id": "12345678909",
+    "phones": [
+      {
+        "country": "55",
+        "area": "11",
+        "number": "999999999",
+        "type": "MOBILE"
+      }
+    ]
+  },
+  "items": [
+    {
+      "reference_id": "1",
+      "name": "Produto Teste PagBank",
+      "quantity": 1,
+      "unit_amount": 2990
+    }
+  ]
+}
+INFO 2025-06-16 14:12:20,886 services 7712 9476 Status: 201
+INFO 2025-06-16 14:12:20,887 services 7712 9476 Resposta: {"id":"ORDE_B9AFE416-6543-48D2-853A-DAFB5015C999","reference_id":"test-1750108340","created_at":"2025-06-16T18:12:22.030-03:00","customer":{"name":"Cliente Teste PagBank","email":"cliente.teste@email.com","tax_id":"12345678909","phones":[{"type":"MOBILE","country":"55","area":"11","number":"999999999"}]},"items":[{"reference_id":"1","name":"Produto Teste PagBank","quantity":1,"unit_amount":2990}],"notification_urls":[],"links":[{"rel":"SELF","href":"https://sandbox.api.pagseguro.com/orders/ORDE_B9AFE416-6543-48D2-853A-DAFB5015C999","media":"application/json","type":"GET"},{"rel":"PAY","href":"https://sandbox.api.pagseguro.com/orders/ORDE_B9AFE416-6543-48D2-853A-DAFB5015C999/pay","media":"application/json","type":"POST"}]}
+ERROR 2025-06-16 14:13:42,305 log 7712 9724 Internal Server Error: /api/payments/
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: payments_payment.payment_gateway_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\payments\views.py", line 25, in get
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: payments_payment.payment_gateway_id
+ERROR 2025-06-16 14:15:35,954 log 7712 3316 Internal Server Error: /api/payments/
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: payments_payment.payment_gateway_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\payments\views.py", line 25, in get
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: payments_payment.payment_gateway_id
+ERROR 2025-06-16 14:17:11,105 log 7712 6288 Internal Server Error: /api/payments/
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: payments_payment.payment_gateway_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\payments\views.py", line 25, in get
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: payments_payment.payment_gateway_id
+ERROR 2025-06-16 14:22:54,320 log 14280 5816 Internal Server Error: /api/payments/
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: payments_payment.payment_gateway_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\payments\views.py", line 25, in get
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: payments_payment.payment_gateway_id
+ERROR 2025-06-16 14:27:40,508 log 14280 4704 Internal Server Error: /api/payments/
+Traceback (most recent call last):
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\payments\views.py", line 31, in post
+    if serializer.is_valid():
+       ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 444, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\venv\Lib\site-packages\rest_framework\serializers.py", line 503, in to_internal_value
+    validated_value = validate_method(validated_value)
+  File "C:\Users\ernane\api-mercadopago-backend\mercadopago_backend\payments\serializers.py", line 66, in validate_items
+    if abs(items_total - declared_amount) > 0.01:  # Tolerância de 1 centavo
+           ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for -: 'decimal.Decimal' and 'float'
+INFO 2025-06-16 14:30:37,785 services 13660 2324 Criando ordem PagBank v4...
+INFO 2025-06-16 14:30:37,786 services 13660 2324 Dados da ordem: {
+  "reference_id": "4c9ec945-c1bb-4d98-a265-c2ce85abe311",
+  "customer": {
+    "name": "Cliente",
+    "email": "novo@cliente.com",
+    "tax_id": "12345678909",
+    "phones": [
+      {
+        "country": "55",
+        "area": "11",
+        "number": "999999999",
+        "type": "MOBILE"
+      }
+    ]
+  },
+  "items": [
+    {
+      "reference_id": "1",
+      "name": "Produto Final",
+      "quantity": 2,
+      "unit_amount": 4995
+    }
+  ]
+}
+INFO 2025-06-16 14:30:38,305 services 13660 2324 Status: 201
+INFO 2025-06-16 14:30:38,306 services 13660 2324 Resposta: {"id":"ORDE_D0CB38A7-CC2F-40D6-A753-51C9B432AE32","reference_id":"4c9ec945-c1bb-4d98-a265-c2ce85abe311","created_at":"2025-06-16T18:30:39.744-03:00","customer":{"name":"Cliente","email":"novo@cliente.com","tax_id":"12345678909","phones":[{"type":"MOBILE","country":"55","area":"11","number":"999999999"}]},"items":[{"reference_id":"1","name":"Produto Final","quantity":2,"unit_amount":4995}],"notification_urls":[],"links":[{"rel":"SELF","href":"https://sandbox.api.pagseguro.com/orders/ORDE_D0CB38A7-CC2F-40D6-A753-51C9B432AE32","media":"application/json","type":"GET"},{"rel":"PAY","href":"https://sandbox.api.pagseguro.com/orders/ORDE_D0CB38A7-CC2F-40D6-A753-51C9B432AE32/pay","media":"application/json","type":"POST"}]}
