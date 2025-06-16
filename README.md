@@ -451,6 +451,40 @@ coverage run --source='.' manage.py test
 coverage report
 ```
 
+## 📸 Screenshots
+
+### 🏦 Portal do Desenvolvedor PagBank
+
+#### Logs de API
+![Logs da API](docs/images/screenshots/01-portal-logs.png)
+
+#### Transações Criadas
+![Lista de Transações](docs/images/screenshots/02-transacoes-lista.png)
+
+#### Cartões de Teste Disponíveis
+![Cartões de Teste](docs/images/screenshots/03-cartoes-teste.png)
+
+#### Interface do Portal
+![Primeiros Passos](docs/images/screenshots/04-primeiros-passos.png)
+
+### 📊 Resultados dos Testes
+
+As imagens acima mostram:
+- ✅ **6 transações** criadas com sucesso
+- ✅ **Logs HTTP 201** confirmando criação
+- ✅ **Todas as bandeiras** testadas (Visa, Mastercard, Amex, Elo)
+- ✅ **Portal sincronizado** em tempo real
+
+### 🎯 Validação da Integração
+
+O Portal do Desenvolvedor PagBank confirma que:
+1. **API está funcionando** (logs com status 201)
+2. **Transações sendo registradas** (6 ordens criadas)
+3. **Diferentes horários** (16:04, 16:02, 16:01, 14:30, 14:12)
+4. **Ambiente de teste** funcionando perfeitamente
+
+
+
 ## 🤝 Contribuição
 
 1. Fork o projeto
