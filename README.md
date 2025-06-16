@@ -140,6 +140,170 @@ curl -X POST http://localhost:8000/api/test-pagbank-order/
 curl http://localhost:8000/api/payments/
 ```
 
+### **Testes por Bandeira de Cartão**
+
+O PagBank oferece cartões de teste para cada bandeira. Você pode simular pagamentos para diferentes bandeiras:
+
+#### **Teste Visa**
+```powershell
+$headers = @{ 'Content-Type' = 'application/json' }
+$body = @{
+    amount = 199.90
+    description = "Teste Visa"
+    payer_email = "visa@teste.com"
+    items = @(
+        @{
+            title = "Produto Teste Visa"
+            quantity = 1
+            unit_price = 199.90
+        }
+    )
+} | ConvertTo-Json -Depth 3
+
+Invoke-WebRequest -Uri "http://localhost:8000/api/payments/" -Method POST -Headers $headers -Body $body
+```
+
+#### **Teste Mastercard**
+```powershell
+$headers = @{ 'Content-Type' = 'application/json' }
+$body = @{
+    amount = 299.90
+    description = "Teste Mastercard"
+    payer_email = "mastercard@teste.com"
+    items = @(
+        @{
+            title = "Produto Teste Mastercard"
+            quantity = 1
+            unit_price = 299.90
+        }
+    )
+} | ConvertTo-Json -Depth 3
+
+Invoke-WebRequest -Uri "http://localhost:8000/api/payments/" -Method POST -Headers $headers -Body $body
+```
+
+#### **Teste American Express**
+```powershell
+$headers = @{ 'Content-Type' = 'application/json' }
+$body = @{
+    amount = 399.90
+    description = "Teste American Express"
+    payer_email = "amex@teste.com"
+    items = @(
+        @{
+            title = "Produto Teste Amex"
+            quantity = 1
+            unit_price = 399.90
+        }
+    )
+} | ConvertTo-Json -Depth 3
+
+Invoke-WebRequest -Uri "http://localhost:8000/api/payments/" -Method POST -Headers $headers -Body $body
+```
+
+#### **Teste Elo**
+```powershell
+$headers = @{ 'Content-Type' = 'application/json' }
+$body = @{
+    amount = 499.90
+    description = "Teste Elo"
+    payer_email = "elo@teste.com"
+    items = @(
+        @{
+            title = "Produto Teste Elo"
+            quantity = 1
+            unit_price = 499.90
+        }
+    )
+} | ConvertTo-Json -Depth 3
+
+Invoke-WebRequest -Uri "http://localhost:8000/api/payments/" -Method POST -Headers $headers -Body $body
+```
+
+### **Cartões de Teste PagBank**
+
+Para testes em ambiente sandbox, use estes cartões fornecidos pelo PagBank:
+
+| Bandeira | Número | CVV | Expiração | Resultado Esperado |
+|----------|--------|-----|-----------|-------------------|
+| **Visa** | `4539620659922097` | 123 | 12/2030 | ✅ Aprovado |
+| **Mastercard** | `5240082975622454` | 123 | 12/2030 | ✅ Aprovado |
+| **American Express** | `345817690311361` | 123 | 12/2030 | ✅ Aprovado |
+| **Elo** | `4514161122113757` | 123 | 12/2030 | ✅ Aprovado |
+| **Hipercard** | `6062828598919021` | 123 | 12/2030 | ✅ Aprovado |
+
+### **Valores de Teste**
+
+Para diferentes cenários de teste:
+
+| Valor | Resultado Esperado |
+|-------|-------------------|
+| R$ 1,00 - R$ 50,00 | ✅ Aprovado automaticamente |
+| R$ 50,01 - R$ 100,00 | ⏳ Fica pendente para análise |
+| R$ 100,01 - R$ 200,00 | ❌ Rejeitado automaticamente |
+| > R$ 200,00 | ✅ Aprovado (conforme configuração) |
+
+> **Nota**: Estes cartões são fornecidos pelo PagBank para testes em ambiente sandbox. Para pagamento transparente, os números devem ser criptografados usando a chave pública.
+
+### **Resultados Esperados**
+
+Após executar os testes, você deve ver:
+
+1. **Status 201** em todos os pagamentos
+2. **payment_id** único para cada transação
+3. **checkout_url** válida do PagBank
+4. **Transações** aparecendo no Portal do Desenvolvedor PagBank
+
+### **Teste Completo - Todas as Bandeiras**
+
+Script PowerShell para testar todas as bandeiras automaticamente:
+
+```powershell
+# Função para criar pagamento
+function New-Payment($amount, $description, $email, $title) {
+    $headers = @{ 'Content-Type' = 'application/json' }
+    $body = @{
+        amount = $amount
+        description = $description
+        payer_email = $email
+        items = @(
+            @{
+                title = $title
+                quantity = 1
+                unit_price = $amount
+            }
+        )
+    } | ConvertTo-Json -Depth 3
+    
+    try {
+        $response = Invoke-WebRequest -Uri "http://localhost:8000/api/payments/" -Method POST -Headers $headers -Body $body
+        $result = $response.Content | ConvertFrom-Json
+        Write-Host "✅ $description - Payment ID: $($result.payment_id)" -ForegroundColor Green
+        return $result
+    } catch {
+        Write-Host "❌ Erro em $description`: $_" -ForegroundColor Red
+    }
+}
+
+# Testar todas as bandeiras
+Write-Host "🧪 Iniciando testes de todas as bandeiras..." -ForegroundColor Cyan
+
+$visa = New-Payment 199.90 "Teste Visa" "visa@teste.com" "Produto Teste Visa"
+$mastercard = New-Payment 299.90 "Teste Mastercard" "mastercard@teste.com" "Produto Teste Mastercard"  
+$amex = New-Payment 399.90 "Teste American Express" "amex@teste.com" "Produto Teste Amex"
+$elo = New-Payment 499.90 "Teste Elo" "elo@teste.com" "Produto Teste Elo"
+$hipercard = New-Payment 599.90 "Teste Hipercard" "hipercard@teste.com" "Produto Teste Hipercard"
+
+Write-Host "`n📊 Resumo dos Testes:" -ForegroundColor Yellow
+Write-Host "- Visa: $($visa.payment_id)"
+Write-Host "- Mastercard: $($mastercard.payment_id)"  
+Write-Host "- Amex: $($amex.payment_id)"
+Write-Host "- Elo: $($elo.payment_id)"
+Write-Host "- Hipercard: $($hipercard.payment_id)"
+
+Write-Host "`n🎯 Verificar transações em: https://portaldev.pagbank.com.br/transacoes" -ForegroundColor Magenta
+```
+
 ## 💳 Fluxo de Pagamento
 
 1. **Frontend** cria pagamento via `POST /api/payments/`
